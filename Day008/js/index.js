@@ -1,5 +1,5 @@
 var platform = new H.service.Platform({
-  apikey: 'key'
+    apikey: 'key'
   });
 
 // Obtain the default map types from the platform object:
@@ -10,7 +10,7 @@ var map = new H.Map(
     document.getElementById('mapContainer'),
     defaultLayers.vector.normal.map,
     {
-      zoom: 13,
+      zoom: 1,
       center: { lat: 0, lng: 0 },
       pixelRatio: window.devicePixelRatio || 1
     });
@@ -26,9 +26,17 @@ var service = platform.getSearchService();
 
 if(navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(position => {
-      console.log(position.coords);
-  });
+      let browserPosition = { lat: position.coords.latitude, lng: position.coords.longitude};
+
+      // Create a marker:
+      let marker = new H.map.Marker(browserPosition);
+
+      // Add the marker to the group (which causes 
+      // it to be displayed on the map)
+      map.addObject(marker);
+    });
 } else {
   console.error("Geolocation is not supported by this browser!");
 }
+
 
