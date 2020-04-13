@@ -1,5 +1,5 @@
 var platform = new H.service.Platform({
-    apikey: 'key'
+    apikey: 'the-key'
   });
 
 // Obtain the default map types from the platform object:
@@ -45,12 +45,31 @@ if(navigator.geolocation) {
   console.error("Geolocation is not supported by this browser!");
 }
 
+var bubble;
+
+function addBubble(coordinate, html) {
+  // Create an info bubble object at a specific geographic location:
+  bubble = new H.ui.InfoBubble(coordinate, {
+    content: html
+  });
+
+  // Add info bubble to the UI:
+  ui.addBubble(bubble);
+}
+
+function delBubble() {
+  ui.removeBubble(bubble);
+}
+
 // Attach an event listener to map display
 // obtain the coordinates and display in an alert box.
 map.addEventListener('tap', function (evt) {
-  let coords = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
-  let icon = new H.map.Icon('https://abs-0.twimg.com/emoji/v2/svg/1f64b-1f3fd.svg'),
-  marker = new H.map.Marker(coords, {icon: icon});
-  marker.setData(" I'm Here ");
-  map.addObject(marker);
+  var coord = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+
+  delBubble();
+
+  addBubble({lat: coord.lat, lng: coord.lng},
+            '<p>I\'m Here</p>' +
+            '<img src="https://abs-0.twimg.com/emoji/v2/svg/1f64b-1f3fd.svg" alt="Smiley face" height="20" width="20">');
+
 });
