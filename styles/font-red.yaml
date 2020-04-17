@@ -1,0 +1,13 @@
+styles:
+  shields:
+    base: points
+    blend_order: 1
+    draw:
+      text:
+        anchor: center
+        text_source: ref
+        font:
+          fill: red
+          family: global.text_font_family
+          weight: 450
+          size: [[6, 8px], [15, 10px], [20, 13px]]
